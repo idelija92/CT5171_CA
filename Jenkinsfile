@@ -3,6 +3,11 @@ pipeline {
     tools {
         git 'Default'
     }
+
+    parameters {
+        booleanParam(name: 'CONFIRM_DEPLOY', defaultValue: false, description: 'Check this to confirm deployment.')
+    }
+
     stages {
         stage ('GetProject') {
             steps {
@@ -26,6 +31,9 @@ pipeline {
             }
         }
          stage ('Deploy') {
+            when {
+                expression { params.CONFIRM_DEPLOY }
+            }
             steps {
                 sh 'docker build -f Dockerfile -t myapp . '
                 sh 'docker rm -f "myappcontainer" || true'
