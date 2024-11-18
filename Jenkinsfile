@@ -14,5 +14,11 @@ pipeline {
                 sh 'mvn clean:clean'
             }
         }
+        stage ('Archive') {
+            steps {
+                archiveArtifacts allowEmptyArchive: true,
+                artifacts:'**/demo*.war'
+            }
+        }
     }
 }
