@@ -14,6 +14,11 @@ pipeline {
                 sh 'mvn clean:clean'
             }
         }
+        stage ('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
         stage ('Archive') {
             steps {
                 archiveArtifacts allowEmptyArchive: true,
