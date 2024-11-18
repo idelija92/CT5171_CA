@@ -26,13 +26,18 @@ pipeline {
                 artifacts:'**/demo*.war'
             }
         }
-        stage('Approval') {
-            def userInput = input message: 'Do you want to deploy?',
-                                  parameters: [booleanParam(defaultValue: false, description: '', name: 'Proceed')]
-
-            if (!userInput) {
-                error 'Deployment aborted by user!'
-            }
+       stage('Approval') {
+           steps {
+               script {
+                   def proceed = input(
+                       message: 'Do you want to deploy?',
+                       parameters: [booleanParam(defaultValue: false, description: '', name: 'Proceed')]
+                   )
+                   if (!proceed) {
+                       error 'Deployment aborted by user!'
+                   }
+               }
+           }
         }
         stage ('Deploy') {
             when {
