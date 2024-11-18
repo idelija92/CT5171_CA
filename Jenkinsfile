@@ -4,10 +4,6 @@ pipeline {
         git 'Default'
     }
 
-    parameters {
-        booleanParam(name: 'CONFIRM_DEPLOY', defaultValue: false, description: 'Check this to confirm deployment.')
-    }
-
     stages {
         stage ('GetProject') {
             steps {
@@ -30,7 +26,15 @@ pipeline {
                 artifacts:'**/demo*.war'
             }
         }
-         stage ('Deploy') {
+        stage('Approval') {
+            def userInput = input message: 'Do you want to deploy?',
+                                  parameters: [booleanParam(defaultValue: false, description: '', name: 'Proceed')]
+
+            if (!userInput) {
+                error 'Deployment aborted by user!'
+            }
+        }
+        stage ('Deploy') {
             when {
                 expression { params.CONFIRM_DEPLOY }
             }
