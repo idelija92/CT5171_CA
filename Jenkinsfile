@@ -40,9 +40,6 @@ pipeline {
            }
         }
         stage ('Deploy') {
-            when {
-                expression { params.CONFIRM_DEPLOY }
-            }
             steps {
                 sh 'docker build -f Dockerfile -t myapp . '
                 sh 'docker rm -f "myappcontainer" || true'
