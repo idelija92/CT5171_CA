@@ -31,7 +31,7 @@ public class DemoApplication {
 	public String createPetition(@RequestParam String title, @RequestParam String description) {
 		int newId = petitions.size() + 1;
 		petitions.add(new Petition(newId, title, description));
-		return "redirect:/demo/view";
+		return "redirect:/view";
 	}
 
 	@GetMapping("/view")
