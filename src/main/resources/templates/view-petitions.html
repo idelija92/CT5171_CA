@@ -10,7 +10,7 @@
 <ul>
   <!-- Dynamically list petitions -->
   <li th:each="petition : ${petitions}">
-    <a th:href="@{'/petition/' + ${petition.id}}">[${petition.title}]</a>
+    <a th:href="@{'/petition/' + ${petition.id}}" th:text="${petition.title}"></a>
   </li>
 </ul>
 <a th:href="@{/}">Back to Create Petition</a>
