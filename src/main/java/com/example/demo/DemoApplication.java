@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-@RestController
+@Controller
 public class DemoApplication {
 
 	private final List<Petition> petitions = new ArrayList<>();
