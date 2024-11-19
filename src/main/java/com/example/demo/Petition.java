@@ -21,7 +21,7 @@ public class Petition {
     public String getDescription() { return description; }
     public List<String> getSignatures() { return signatures; }
 
-    public void addSignature(String name, String email) {
-        signatures.add(name + " (" + email + ")");
+    public void addSignature(String signature) {
+        signatures.add(signature);
     }
 }

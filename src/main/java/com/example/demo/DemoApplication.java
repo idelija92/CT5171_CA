@@ -40,7 +40,7 @@ public class DemoApplication {
 	}
 
 	@GetMapping("/petition/{id}")
-	public Petition viewPetition(@PathVariable int id, Model model) {
+	public String viewPetition(@PathVariable int id, Model model) {
 		Petition petition = findPetitionById(id);
 		if (petition == null) { return "error"; }
 		model.addAttribute("petition", petition);
@@ -48,17 +48,15 @@ public class DemoApplication {
 	}
 
 	@PostMapping("/petition/{id}/sign")
-	public String signPetition(@PathVariable int id, @RequestParam String name, @RequestParam String email) {
-		Petition petition = petitions.stream()
-				.filter(p -> p.getId() == id)
-				.findFirst()
-				.orElse(null);
-
+	public String signPetition(@PathVariable int id, @RequestParam String name, @RequestParam String email, Model model) {
+		Petition petition = findPetitionsById(id);
 		if (petition != null) {
-			petition.addSignature(name, email);
-			return "Signed petition with ID: " + id;
+			return "error";
 		}
-		return "Petition not found.";
+		String signature = name + " (" + email + ")";
+		petition.addSignature(signature);
+		model.addAttribute("petition", petition);
+		return "redirect:/petition/" + id;
 	}
 
 	private Petition findPetitionById(int id) {
