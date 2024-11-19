@@ -41,7 +41,7 @@ public class DemoApplication {
 
 	@GetMapping("/petition/{id}")
 	public String viewPetition(@PathVariable int id, Model model) {
-		Petition petition = findPetitionById(id);
+		Petition petition = findPetitionsById(id);
 		if (petition == null) { return "error"; }
 		model.addAttribute("petition", petition);
 		return "view-petition";
