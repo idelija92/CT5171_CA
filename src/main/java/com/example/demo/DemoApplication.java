@@ -57,7 +57,7 @@ public class DemoApplication {
 		String signature = name + " (" + email + ")";
 		petition.addSignature(signature);
 		model.addAttribute("petition", petition);
-		return "redirect:/demo/petition/" + id;
+		return "redirect:/petition/" + id;
 	}
 
 	private Petition findPetitionsById(int id) {
