@@ -29,6 +29,21 @@ public class DemoApplication {
 		return petitions;
 	}
 
+	@PostMapping("/create")
+	public String createPetition(@RequestParam String title, @RequestParam String description) {
+		int id = petitions.size() + 1;
+		petitions.add(new Petition(id, title, description));
+		return "Petition created successfully with ID: " + id;
+	}
+
+	@GetMapping("/petition/{id}")
+	public Petition viewPetition(@PathVariable int id) {
+		return petitions.stream()
+				.filter(p -> p.getId() == id)
+				.findFirst()
+				.orElse(null); // Returns the petition as JSON or `null` if not found
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
