@@ -13,7 +13,7 @@ public class Petition {
         this.signatures = new ArrayList<>();
     }
 
-    public Petition() {
+    public Petition(int id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
