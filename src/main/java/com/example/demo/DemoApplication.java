@@ -35,7 +35,7 @@ public class DemoApplication {
 
 	@GetMapping("/view")
 	public String viewPetitions(Model model) {
-		model.addAtribute("petitions", petitions);
+		model.addAttribute("petitions", petitions);
 		return "view-petitions";
 	}
 
@@ -59,7 +59,7 @@ public class DemoApplication {
 		return "redirect:/petition/" + id;
 	}
 
-	private Petition findPetitionById(int id) {
+	private Petition findPetitionsById(int id) {
 		return petitions.stream()
 				.filter(p -> p.getId() == id)
 				.findFirst()
