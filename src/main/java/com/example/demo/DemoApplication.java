@@ -27,20 +27,20 @@ public class DemoApplication {
 		return "index";
 	}
 
-	@PostMapping("/create-petition")
+	@PostMapping("/demo/create-petition")
 	public String createPetition(@RequestParam String title, @RequestParam String description) {
 		int newId = petitions.size() + 1;
 		petitions.add(new Petition(newId, title, description));
 		return "redirect:/view";
 	}
 
-	@GetMapping("/view")
+	@GetMapping("/demo/view")
 	public String viewPetitions(Model model) {
 		model.addAttribute("petitions", petitions);
 		return "view-petitions";
 	}
 
-	@GetMapping("/petition/{id}")
+	@GetMapping("/demo/petition/{id}")
 	public String viewPetition(@PathVariable int id, Model model) {
 		Petition petition = findPetitionsById(id);
 		if (petition == null) { return "error"; }
@@ -48,7 +48,7 @@ public class DemoApplication {
 		return "view-petition";
 	}
 
-	@PostMapping("/petition/{id}/sign")
+	@PostMapping("/demo/petition/{id}/sign")
 	public String signPetition(@PathVariable int id, @RequestParam String name, @RequestParam String email, Model model) {
 		Petition petition = findPetitionsById(id);
 		if (petition != null) {
