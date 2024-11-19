@@ -3,6 +3,7 @@ package com.example.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,28 +21,30 @@ public class DemoApplication {
 	}
 
 	@GetMapping("/")
-	public String createPetitions() {
-		return "This is a landing page placeholder for creating petitions";
+	public String createPetitionsForm(Model model) {
+		model.addAttribute("petition", new Petition());
+		return "index";
+	}
+
+	@PostMapping("/create-petition")
+	public String createPetition(@RequestParam String title, @RequestParam String description) {
+		int newId = petitions.size() + 1;
+		petitions.add(new Petition(newId, title, description));
+		return "redirect:/view";
 	}
 
 	@GetMapping("/view")
-	public List<Petition> viewPetitions() {
-		return petitions;
-	}
-
-	@PostMapping("/create")
-	public String createPetition(@RequestParam String title, @RequestParam String description) {
-		int id = petitions.size() + 1;
-		petitions.add(new Petition(id, title, description));
-		return "Petition created successfully with ID: " + id;
+	public String viewPetitions(Model model) {
+		model.addAtribute("petitions", petitions);
+		return "view-petitions";
 	}
 
 	@GetMapping("/petition/{id}")
-	public Petition viewPetition(@PathVariable int id) {
-		return petitions.stream()
-				.filter(p -> p.getId() == id)
-				.findFirst()
-				.orElse(null); // Returns the petition as JSON or `null` if not found
+	public Petition viewPetition(@PathVariable int id, Model model) {
+		Petition petition = findPetitionById(id);
+		if (petition == null) { return "error"; }
+		model.addAttribute("petition", petition);
+		return "view-petition";
 	}
 
 	@PostMapping("/petition/{id}/sign")
@@ -56,6 +59,13 @@ public class DemoApplication {
 			return "Signed petition with ID: " + id;
 		}
 		return "Petition not found.";
+	}
+
+	private Petition findPetitionById(int id) {
+		return petitions.stream()
+				.filter(p -> p.getId() == id)
+				.findFirst()
+				.orElse(null);
 	}
 
 	public static void main(String[] args) {
