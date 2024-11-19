@@ -44,6 +44,20 @@ public class DemoApplication {
 				.orElse(null); // Returns the petition as JSON or `null` if not found
 	}
 
+	@PostMapping("/petition/{id}/sign")
+	public String signPetition(@PathVariable int id, @RequestParam String name, @RequestParam String email) {
+		Petition petition = petitions.stream()
+				.filter(p -> p.getId() == id)
+				.findFirst()
+				.orElse(null);
+
+		if (petition != null) {
+			petition.addSignature(name, email);
+			return "Signed petition with ID: " + id;
+		}
+		return "Petition not found.";
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
